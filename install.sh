@@ -38,8 +38,13 @@ if [ ! -f $mark ]; then
   fi
   [ ! -f $name ] && echo "File $name does not exist" && exit 1
   [ -d $venv_dir ] && rm -r $venv_dir
-  sh $name -b -p $venv_dir || exit 1
-  . $venv_dir/bin/activate
+  # die venv heist venv und wird generiert und aktiviert
+  # ich mache eine normal pip env
+  # sh $name -b -p $venv_dir || exit 1
+  #. $venv_dir/bin/activate
+  env_name="vpc"
+  create $env_name
+  activate $env_name
   echo 'Installing python dependencies'
   pip install -r requirements.txt || exit 1
   touch $mark
