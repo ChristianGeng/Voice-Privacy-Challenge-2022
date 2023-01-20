@@ -43,8 +43,8 @@ if [ ! -f $mark ]; then
   # sh $name -b -p $venv_dir || exit 1
   #. $venv_dir/bin/activate
   env_name="vpc"
-  create $env_name
-  activate $env_name
+  # create $env_name
+  # activate $env_name
   echo 'Installing python dependencies'
   pip install -r requirements.txt || exit 1
   touch $mark
