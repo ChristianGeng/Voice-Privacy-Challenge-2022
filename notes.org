@@ -1,5 +1,79 @@
 
-* My Seg Fault in baseline/run.sh local/main_anonymization.sh
+* ap-cgeng.fritz.box
+
+** install.sh
+*** nvidia toolkit
+
+#+begin_src bash
+apt-cache rdepends packagename nvidia-cuda-toolkit
+#+end_src
+
+#+RESULTS:
+| nvidia-cuda-toolkit     |          |
+| Reverse                 | Depends: |
+| nvidia-cuda-toolkit-gcc |          |
+| python3-pycuda          |          |
+| nvidia-profiler         |          |
+| hxtools                 |          |
+| libthrust-dev           |          |
+| python3-theano          |          |
+| python3-numba           |          |
+| nvptx-tools             |          |
+
+
+#+begin_src  bash :results output raw
+ sudo  apt install -y nvidia-cuda-toolkit
+#+end_src
+
+
+#+RESULTS:
+sudo  apt install -y nvidia-cuda-toolkit
+Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+The following additional packages will be installed:
+  cpp-8 g++-8 gcc-8 gcc-8-base libaccinj64-10.1 libcublas10 libcublaslt10 libcudart10.1 libcufft10 libcufftw10 libcuinj64-10.1 libcupti-dev libcupti-doc libcupti10.1 libcurand10 libcusolver10
+  libcusolvermg10 libcusparse10 libgcc-8-dev libmpx2 libncurses5 libnppc10 libnppial10 libnppicc10 libnppicom10 libnppidei10 libnppif10 libnppig10 libnppim10 libnppist10 libnppisu10 libnppitc10
+  libnpps10 libnvblas10 libnvgraph10 libnvidia-ml-dev libnvjpeg10 libnvrtc10.1 libnvtoolsext1 libnvvm3 libstdc++-8-dev libthrust-dev libtinfo5 libvdpau-dev node-html5shiv nsight-compute nsight-systems
+  nvidia-cuda-dev nvidia-cuda-doc nvidia-cuda-gdb nvidia-opencl-dev nvidia-profiler nvidia-visual-profiler ocl-icd-opencl-dev opencl-c-headers openjdk-8-jre openjdk-8-jre-headless
+Suggested packages:
+  gcc-8-locales g++-8-multilib gcc-8-doc gcc-8-multilib libstdc++-8-doc libvdpau-doc nodejs nvidia-driver | nvidia-tesla-440-driver | nvidia-tesla-418-driver libpoclu-dev fonts-ipafont-gothic
+  fonts-ipafont-mincho fonts-wqy-microhei fonts-wqy-zenhei
+Recommended packages:
+  libnvcuvid1
+The following NEW packages will be installed:
+  cpp-8 g++-8 gcc-8 gcc-8-base libaccinj64-10.1 libcublas10 libcublaslt10 libcudart10.1 libcufft10 libcufftw10 libcuinj64-10.1 libcupti-dev libcupti-doc libcupti10.1 libcurand10 libcusolver10
+  libcusolvermg10 libcusparse10 libgcc-8-dev libmpx2 libncurses5 libnppc10 libnppial10 libnppicc10 libnppicom10 libnppidei10 libnppif10 libnppig10 libnppim10 libnppist10 libnppisu10 libnppitc10
+  libnpps10 libnvblas10 libnvgraph10 libnvidia-ml-dev libnvjpeg10 libnvrtc10.1 libnvtoolsext1 libnvvm3 libstdc++-8-dev libthrust-dev libtinfo5 libvdpau-dev node-html5shiv nsight-compute nsight-systems
+  nvidia-cuda-dev nvidia-cuda-doc nvidia-cuda-gdb nvidia-cuda-toolkit nvidia-opencl-dev nvidia-profiler nvidia-visual-profiler ocl-icd-opencl-dev opencl-c-headers openjdk-8-jre openjdk-8-jre-headless
+0 upgraded, 58 newly installed, 0 to remove and 15 not upgraded.
+Need to get 1.355 MB/1.428 MB of archives.
+After this operation, 3.819 MB of additional disk space will be used.
+
+
+
+
+
+*** Chose compiler
+
+#+begin_exampple bash
+history | grep alternatives | grep -v   "#"
+#+end_example
+
+#+RESULTS:
+2013  sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-8 8
+2014  sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 9
+2017  sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-8 8
+2018  sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-9 9
+2020  sudo update-alternatives --config gcc
+2021  sudo update-alternatives --config g++
+
+
+
+
+
+* Compute3
+** My Seg Fault in baseline/run.sh local/main_anonymization.sh
 
 in baseline:
  source env.sh
@@ -21,11 +95,11 @@ File: baseline/local/vc/am_pytorch/01_angen.sh
 
 
 
-** Call Hierarchy
+*** Call Hierarchy
 
 local/main_anonymization.sh -> local/anon/anonymize_data_dir.sh ->  local/vc/am_pytorch/01_gen.sh
 
-** Aufruf von =local/anon/anonymize_data_dir.sh= in main_anonymization
+*** Aufruf von =local/anon/anonymize_data_dir.sh= in main_anonymization
 
     printf "${GREEN}\n Anonymizing using x-vectors and neural wavform models...${NC}\n"
     ppg_dir=${ppg_model}/nnet3_cleaned
@@ -47,7 +121,7 @@ local/main_anonymization.sh -> local/anon/anonymize_data_dir.sh ->  local/vc/am_
 
 
 
-** logs
+*** logs
 
 
 #+begin_example
@@ -64,11 +138,11 @@ with the exception of utt2uniq and segments, which are created where necessary.
 (base) cgeng@compute3:/data/work3/cgeng/Voice-Privacy-Challenge-2022/baseline$
 #+end_example
 
-** More logs from /data/work3/cgeng/Voice-Privacy-Challenge-2022/baseline/local/anon/anonymize_data_dir.sh
+*** More logs from /data/work3/cgeng/Voice-Privacy-Challenge-2022/baseline/local/anon/anonymize_data_dir.sh
 
 
 
-*** Stage a.0: Extracting xvectors for libri_dev_enrolls.
+**** Stage a.0: Extracting xvectors for libri_dev_enrolls.
 steps/make_mfcc.sh --write-utt2num-frames true --mfcc-config conf/mfcc.conf --nj 16 --cmd run.pl data/libri_dev_enrolls exp/make_mfcc /data/work3/cgeng/Voice-Privacy-Challenge-2022/baseline/mfcc
 steps/make_mfcc.sh: moving data/libri_dev_enrolls/feats.scp to data/libri_dev_enrolls/.backup
 utils/validate_data_dir.sh: Successfully validated data-directory data/libri_dev_enrolls
@@ -88,7 +162,7 @@ sid/nnet3/xvector/extract_xvectors.sh: extracting xvectors from nnet
 sid/nnet3/xvector/extract_xvectors.sh: combining xvectors across jobs
 sid/nnet3/xvector/extract_xvectors.sh: computing mean of xvectors for each speaker
 
-*** Stage a.1: Generating pseudo-speakers for libri_dev_enrolls.
+**** Stage a.1: Generating pseudo-speakers for libri_dev_enrolls.
 Computing PLDA affinity scores of each source speaker to each pool speaker.
 ['local/anon/gen_pseudo_xvecs.py', 'data/libri_dev_enrolls', 'data/libritts_train_other_500', 'exp/models/2_xvect_extr/exp/xvector_nnet_1a/anon/xvectors_libri_dev_enrolls/spk_pool_scores', 'exp/models/2_xvect_extr/exp/xvector_nnet_1a/anon', 'exp/models/2_xvect_extr/exp/xvector_nnet_1a/anon/xvectors_libri_dev_enrolls/pseudo_xvecs', 'spk', 'false', 'farthest', '0']
 **Same gender speakers will be selected.**
@@ -103,14 +177,14 @@ Writing pseud-speaker xvectors to: exp/models/2_xvect_extr/exp/xvector_nnet_1a/a
 Writing pseudo-speaker spk2gender.
 f0_download=true, data_dir=libri_dev_enrolls
 
-*** Stage a.2: Pitch extraction for libri_dev_enrolls.
+**** Stage a.2: Pitch extraction for libri_dev_enrolls.
 local/featex/make_pitch.sh --nj 16 --cmd run.pl data/libri_dev_enrolls exp/make_pitch data/libri_dev_enrolls/pitch
 local/featex/make_pitch.sh: moving data/libri_dev_enrolls/pitch.scp to data/libri_dev_enrolls/.backup
 utils/validate_data_dir.sh: Successfully validated data-directory data/libri_dev_enrolls
 local/featex/make_pitch.sh: [info]: no segments file exists: assuming wav.scp indexed by utterance.
 time for yaapt
 
-*** Stage a.3: PPG extraction for libri_dev_enrolls.
+**** Stage a.3: PPG extraction for libri_dev_enrolls.
 utils/copy_data_dir.sh: copied data from data/libri_dev_enrolls to data/libri_dev_enrolls_hires
 utils/validate_data_dir.sh: Successfully validated data-directory data/libri_dev_enrolls_hires
 steps/make_mfcc.sh --nj 16 --mfcc-config conf/mfcc_hires.conf --cmd run.pl data/libri_dev_enrolls_hires
@@ -125,7 +199,7 @@ steps/online/nnet2/extract_ivectors_online.sh: done extracting (online) iVectors
 Done
 
 
-*** Stage a.4: Make netcdf data for VC.
+**** Stage a.4: Make netcdf data for VC.
 Writing SCP file..
 Der ppg-file_ exp/models/1_asr_am/exp/nnet3_cleaned/ppg_libri_dev_enrolls/phone_post.scp
 Writing PPG features /data/work3/cgeng/Voice-Privacy-Challenge-2022/baseline/exp/am_nsf_data/libri_dev_enrolls/ppg
@@ -138,7 +212,7 @@ false
 /data/work3/cgeng/Voice-Privacy-Challenge-2022/nii/pyTools/ioTools/readwrite.py:187: FutureWarning: Passing (type, 1) or '1type' as a synonym of type is deprecated; in a future version of numpy, it will be understood as (type, (1,)) / '(1,)type'.
   datatype = np.dtype((format,1))
 
-*** Stage a.5: Generate melspec from acoustic model for libri_dev_enrolls.
+**** Stage a.5: Generate melspec from acoustic model for libri_dev_enrolls.
 Etwas debug info für mich
 proj_dir: /data/work3/cgeng/Voice-Privacy-Challenge-2022/nii_pytorch/projects/am
 config_file: config
@@ -600,7 +674,10 @@ local/vc/am_pytorch/01_gen.sh: line 58: 80718 Segmentation fault      (core dump
 
 
 
-* Other Links
+
+
+
+* Links
 
 Dieses README
 /data/work3/cgeng/Voice-Privacy-Challenge-2022/nii_scripts/waveform-modeling/project-WaveNet/README
