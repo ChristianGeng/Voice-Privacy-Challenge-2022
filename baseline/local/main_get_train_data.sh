@@ -22,7 +22,8 @@ if [ $stage -le 0 ]; then
   echo "train=$train"
   for part in $train; do
     printf "${GREEN}Downloading LibriSpeech data set $train for training evaluatio models...${NC}\n"
-    local/download_and_untar.sh --remove-archive $corpora $data_url_librispeech $part LibriSpeech || exit 1
+    # local/download_and_untar.sh --remove-archive $corpora $data_url_librispeech $part LibriSpeech || exit 1
+    local/download_and_untar.sh $corpora $data_url_librispeech $part LibriSpeech || exit 1
   done
   # lang directory link for ASR
   if [ -d "data/lang" ]; then
