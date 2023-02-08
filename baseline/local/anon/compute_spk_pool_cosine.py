@@ -17,6 +17,10 @@ if not isdir(scores_dir):
 src_xvec_file = join(src_xvec_dir, 'spk_xvector.scp')
 pool_xvec_file = join(pool_xvec_dir, 'spk_xvector.scp')
 
+print("spk pool cosine:")
+print(f"src_xvec_file: {src_xvec_file}")
+print(f"pool_xvec_file: {pool_xvec_file}")
+
 pool_xvectors = {}
 c = 0
 with ReadHelper('scp:'+pool_xvec_file) as reader:
